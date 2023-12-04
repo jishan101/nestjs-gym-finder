@@ -3,45 +3,70 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { DeleteResponseDTO } from '../../common/dto/delete-response.dto';
+import { UpdateResponseDTO } from '../../common/dto/update-response.dto';
 import { DistrictService } from './district.service';
 import { CreateDistrictDTO } from './dto/create-district.dto';
+import { DistrictResponseDTO } from './dto/district-response.dto';
 import { UpdateDistrictDTO } from './dto/update-district.dto';
+import { DistrictEntity } from './entities/district.entity';
 
 @ApiTags("District Api's")
 @Controller('district')
 export class DistrictController {
   constructor(private readonly districtService: DistrictService) {}
 
-  @Post()
-  create(@Body() createDistrictDto: CreateDistrictDTO) {
-    return this.districtService.create(createDistrictDto);
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: DistrictResponseDTO })
+  @Post('create')
+  public create(@Body() body: CreateDistrictDTO): Promise<DistrictEntity> {
+    return this.districtService.create(body);
   }
 
-  @Get()
-  findAll() {
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: DistrictResponseDTO, isArray: true })
+  @Get('all')
+  public findAll(): Promise<DistrictEntity[]> {
     return this.districtService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.districtService.findOne(+id);
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: DistrictResponseDTO, isArray: true })
+  @Get('all-by-division/:divisionId')
+  public findAllByDivisionId(
+    @Param('divisionId') divisionId: string,
+  ): Promise<DistrictEntity[]> {
+    return this.districtService.findAllByDivisionId(divisionId);
   }
 
-  @Patch(':id')
-  update(
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: DistrictResponseDTO })
+  @Get('details/:id')
+  public findOne(@Param('id') id: string): Promise<DistrictEntity> {
+    return this.districtService.findOne(id);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: UpdateResponseDTO })
+  @Patch('update/:id')
+  public update(
     @Param('id') id: string,
-    @Body() updateDistrictDto: UpdateDistrictDTO,
-  ) {
-    return this.districtService.update(+id, updateDistrictDto);
+    @Body() body: UpdateDistrictDTO,
+  ): Promise<UpdateResponseDTO> {
+    return this.districtService.update(id, body);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.districtService.remove(+id);
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: DeleteResponseDTO })
+  @Delete('delete/:id')
+  public remove(@Param('id') id: string): Promise<DeleteResponseDTO> {
+    return this.districtService.remove(id);
   }
 }
