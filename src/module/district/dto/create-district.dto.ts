@@ -1,5 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+  MinLength,
+} from 'class-validator';
 
 export class CreateDistrictDTO {
   @ApiProperty()
@@ -7,4 +13,9 @@ export class CreateDistrictDTO {
   @IsNotEmpty()
   @MinLength(1)
   name: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsUUID()
+  division_id?: string;
 }

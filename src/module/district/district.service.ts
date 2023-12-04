@@ -1,6 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { DeleteResponseDTO } from '../../common/dto/delete-response.dto';
+import { UpdateResponseDTO } from '../../common/dto/update-response.dto';
+import { ResponseHelper } from '../../common/util/response-helper.util';
 import { CreateDistrictDTO } from './dto/create-district.dto';
 import { UpdateDistrictDTO } from './dto/update-district.dto';
 import { DistrictEntity } from './entities/district.entity';
@@ -12,23 +15,48 @@ export class DistrictService {
     private readonly districtRepo: Repository<DistrictEntity>,
   ) {}
 
-  create(createDistrictDto: CreateDistrictDTO) {
-    return 'This action adds a new district';
+  public create(body: CreateDistrictDTO): Promise<DistrictEntity> {
+    const newDistrict = this.districtRepo.create(body);
+
+    return this.districtRepo.save(newDistrict);
   }
 
-  findAll() {
-    return `This action returns all district`;
+  public findAll(): Promise<DistrictEntity[]> {
+    return this.districtRepo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} district`;
+  public findAllByDivisionId(divisionId: string): Promise<DistrictEntity[]> {
+    return this.districtRepo.find({ where: { division: { id: divisionId } } });
   }
 
-  update(id: number, updateDistrictDto: UpdateDistrictDTO) {
-    return `This action updates a #${id} district`;
+  public async findOne(id: string): Promise<DistrictEntity> {
+    const district = await this.districtRepo.findOneBy({ id });
+    if (!district) {
+      throw new NotFoundException('District Does Not Exist.');
+    }
+
+    return district;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} district`;
+  public async update(
+    id: string,
+    body: UpdateDistrictDTO,
+  ): Promise<UpdateResponseDTO> {
+    await this.findOne(id);
+
+    const updateResult = await this.districtRepo.update(id, body);
+
+    return ResponseHelper.updateResponse(
+      updateResult.affected ? true : false,
+      id,
+    );
+  }
+
+  public async remove(id: string): Promise<DeleteResponseDTO> {
+    await this.findOne(id);
+
+    const deleteResult = await this.districtRepo.delete(id);
+
+    return ResponseHelper.deleteResponse(deleteResult.affected ? true : false);
   }
 }
