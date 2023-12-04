@@ -3,43 +3,66 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
 } from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { DeleteResponseDTO } from '../../common/dto/delete-response.dto';
+import { UpdateResponseDTO } from '../../common/dto/update-response.dto';
 import { DivisionService } from './division.service';
 import { CreateDivisionDTO } from './dto/create-division.dto';
+import { DivisionResponseDTO } from './dto/division-response.dto';
 import { UpdateDivisionDTO } from './dto/update-division.dto';
+import { DivisionEntity } from './entities/division.entity';
 
+@ApiTags("Division Api's")
 @Controller('division')
 export class DivisionController {
   constructor(private readonly divisionService: DivisionService) {}
 
-  @Post()
-  create(@Body() createDivisionDto: CreateDivisionDTO) {
-    return this.divisionService.create(createDivisionDto);
+  @Post('seed-division-district')
+  public async seedDivisionDistrict() {
+    await this.divisionService.seedDivisionDistrict();
   }
 
-  @Get()
-  findAll() {
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: DivisionResponseDTO })
+  @Post('create')
+  public create(@Body() body: CreateDivisionDTO): Promise<DivisionEntity> {
+    return this.divisionService.create(body);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: DivisionResponseDTO, isArray: true })
+  @Get('all')
+  public findAll(): Promise<DivisionEntity[]> {
     return this.divisionService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.divisionService.findOne(+id);
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: DivisionResponseDTO })
+  @Get('details/:id')
+  public findOne(@Param('id') id: string): Promise<DivisionEntity> {
+    return this.divisionService.findOne(id);
   }
 
-  @Patch(':id')
-  update(
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: UpdateResponseDTO })
+  @Patch('update/:id')
+  public update(
     @Param('id') id: string,
-    @Body() updateDivisionDto: UpdateDivisionDTO,
-  ) {
-    return this.divisionService.update(+id, updateDivisionDto);
+    @Body() body: UpdateDivisionDTO,
+  ): Promise<UpdateResponseDTO> {
+    return this.divisionService.update(id, body);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.divisionService.remove(+id);
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: DeleteResponseDTO })
+  @Delete('delete/:id')
+  public remove(@Param('id') id: string): Promise<DeleteResponseDTO> {
+    return this.divisionService.remove(id);
   }
 }
