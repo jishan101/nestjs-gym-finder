@@ -3,10 +3,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BaseEntity } from '../../../common/entities/base.entity';
 import { DivisionEntity } from '../../division/entities/division.entity';
+import { GymEntity } from '../../gym/entities/gym.entity';
 
 @Entity('district')
 export class DistrictEntity extends BaseEntity {
@@ -21,4 +23,7 @@ export class DistrictEntity extends BaseEntity {
   })
   @JoinColumn({ name: 'division_id' })
   division: DivisionEntity;
+
+  @OneToMany(() => GymEntity, (gym) => gym.district, { cascade: true })
+  gyms: GymEntity[];
 }
