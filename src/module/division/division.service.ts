@@ -22,7 +22,7 @@ export class DivisionService {
     }
   }
 
-  public create(body: CreateDivisionDTO): Promise<DivisionEntity> {
+  public create(body: CreateDivisionDTO | object): Promise<DivisionEntity> {
     const newDivision = this.divisionRepo.create(body);
 
     return this.divisionRepo.save(newDivision);

@@ -4,6 +4,20 @@ export const divisions = [
     districts: [
       {
         name: 'Comilla',
+        gyms: [
+          {
+            name: 'gym name',
+            monthly_fee: 800,
+            is_air_condition: true,
+            allowed_gender: 'Both',
+            location: 'location link',
+            website: 'website link (optional)',
+            contact: 'mobile no. (optional)',
+            rating: 1,
+            working_hours: 'JSON (optional)',
+            business_status: 'Operational (optional)',
+          },
+        ],
       },
       {
         name: 'Feni',

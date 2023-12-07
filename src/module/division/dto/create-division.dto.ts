@@ -3,6 +3,7 @@ import { Type } from 'class-transformer';
 import {
   IsArray,
   IsNotEmpty,
+  IsOptional,
   IsString,
   MinLength,
   ValidateNested,
@@ -17,8 +18,9 @@ export class CreateDivisionDTO {
   name: string;
 
   @ApiPropertyOptional({ type: CreateDistrictDTO, isArray: true })
+  @IsOptional()
   @Type(() => CreateDistrictDTO)
   @IsArray()
   @ValidateNested({ each: true })
-  districts: CreateDistrictDTO[];
+  districts?: CreateDistrictDTO[];
 }
