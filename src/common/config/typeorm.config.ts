@@ -13,7 +13,7 @@ export const dataSourceOptions: DataSourceOptions = {
   database: config.get<string>('MYSQLDATABASE'),
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/database/migrations/*{.ts,.js}'],
-  logging: true,
+  logging: false,
   synchronize: false,
 };
 

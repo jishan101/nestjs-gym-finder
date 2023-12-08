@@ -8,11 +8,13 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResponseDTO } from '../../common/dto/delete-response.dto';
 import { UpdateResponseDTO } from '../../common/dto/update-response.dto';
 import { CreateGymDTO } from './dto/create-gym.dto';
+import { GymQueryDTO } from './dto/gym-query.dto';
 import { GymResponseDTO } from './dto/gym-response.dto';
 import { UpdateGymDTO } from './dto/update-gym.dto';
 import { GymEntity } from './entities/gym.entity';
@@ -35,6 +37,13 @@ export class GymController {
   @Get('all')
   public findAll(): Promise<GymEntity[]> {
     return this.gymService.findAll();
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: GymResponseDTO, isArray: true })
+  @Get('filters')
+  public findByFilters(@Query() query: GymQueryDTO): Promise<GymEntity[]> {
+    return this.gymService.findByFilters(query);
   }
 
   @HttpCode(HttpStatus.OK)
