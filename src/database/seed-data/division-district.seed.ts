@@ -4,20 +4,6 @@ export const divisions = [
     districts: [
       {
         name: 'Comilla',
-        gyms: [
-          {
-            name: 'gym name',
-            monthly_fee: 800,
-            is_air_condition: true,
-            allowed_gender: 'Both',
-            location: 'location link',
-            website: 'website link (optional)',
-            contact: 'mobile no. (optional)',
-            rating: 1,
-            working_hours: 'JSON (optional)',
-            business_status: 'Operational (optional)',
-          },
-        ],
       },
       {
         name: 'Feni',
@@ -39,6 +25,31 @@ export const divisions = [
       },
       {
         name: 'Chattogram',
+        gyms: [
+          {
+            name: 'Test Gym 1',
+            monthly_fee: 800,
+            is_air_condition: true,
+            allowed_gender: 'Male',
+            location: 'location_link',
+            website: 'website_link',
+            contact: '+8801829123456',
+            rating: 3,
+            // working_hours: 'JSON (optional)',
+            business_status: 'Operational',
+          },
+          {
+            name: 'Test Gym 2',
+            monthly_fee: 1100,
+            is_air_condition: true,
+            allowed_gender: 'Both',
+            location: 'location_link',
+            website: 'website_link',
+            contact: '+8801829654321',
+            rating: 2,
+            business_status: 'Operational',
+          },
+        ],
       },
       {
         name: 'Coxsbazar',
