@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import {
-  IsBoolean,
+  IsArray,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -57,14 +57,6 @@ export class GymQueryDTO {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsBoolean()
-  @Transform((x: any) =>
-    x.value && typeof x.value !== 'boolean' ? x.value === 'true' : x.value,
-  )
-  is_air_condition: boolean;
-
-  @ApiPropertyOptional()
-  @IsOptional()
   @IsNumber()
   @Transform((x: any) =>
     x.value && typeof x.value !== 'number' ? Number(x.value) : x.value,
@@ -72,4 +64,13 @@ export class GymQueryDTO {
   @IsNotEmpty()
   @Min(1)
   rating: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsArray()
+  @Transform((x: { value: string }) =>
+    x.value ? x.value.split(',').map((i) => i.trim()) : x.value,
+  )
+  @IsNotEmpty()
+  attributes: string[];
 }
