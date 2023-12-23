@@ -9,9 +9,6 @@ export class GymResponseDTO extends PartialType(BaseResponseDTO) {
   monthly_fee: number;
 
   @ApiResponseProperty()
-  is_air_condition: boolean;
-
-  @ApiResponseProperty()
   allowed_gender: string;
 
   @ApiResponseProperty()
@@ -31,4 +28,7 @@ export class GymResponseDTO extends PartialType(BaseResponseDTO) {
 
   @ApiResponseProperty()
   business_status: string;
+
+  @ApiResponseProperty()
+  attributes: string[];
 }

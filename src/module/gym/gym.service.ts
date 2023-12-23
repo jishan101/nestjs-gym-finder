@@ -36,10 +36,13 @@ export class GymService {
       gyms = gyms.filter((gym) => isSameString(gym.name, query.name));
     }
 
-    if (query.monthly_fee_start && query.monthly_fee_end) {
-      query.monthly_fee_start = Number(query.monthly_fee_start);
-      query.monthly_fee_end = Number(query.monthly_fee_end);
+    if (query.attributes.length) {
+      gyms = gyms.filter((gym) =>
+        query.attributes.every((attr) => gym.attributes.includes(attr as any)),
+      );
+    }
 
+    if (query.monthly_fee_start && query.monthly_fee_end) {
       gyms = gyms.filter(
         (gym) =>
           query.monthly_fee_start <= gym.monthly_fee &&
@@ -53,20 +56,7 @@ export class GymService {
       );
     }
 
-    if (query.is_air_condition) {
-      query.is_air_condition =
-        typeof query.is_air_condition !== 'boolean'
-          ? query.is_air_condition === 'true'
-          : query.is_air_condition;
-
-      gyms = gyms.filter(
-        (gym) => gym.is_air_condition === query.is_air_condition,
-      );
-    }
-
     if (query.rating) {
-      query.rating = Number(query.rating);
-
       gyms = gyms.filter((gym) => gym.rating >= query.rating);
     }
 

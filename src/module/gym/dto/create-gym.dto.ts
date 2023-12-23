@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsBoolean,
+  IsArray,
   IsEnum,
   IsJSON,
   IsNotEmpty,
@@ -12,6 +12,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { AllowedGenderEnum } from '../enum/allowed-gender.enum';
+import { AttributeEnum } from '../enum/attribute.enum';
 
 export class CreateGymDTO {
   @ApiProperty()
@@ -26,17 +27,12 @@ export class CreateGymDTO {
   @Min(1)
   monthly_fee: number;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsBoolean()
-  is_air_condition: boolean;
-
   @ApiProperty({
     enum: AllowedGenderEnum,
-    description: 'Must be either Male, Female or Both.',
+    description: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.BOTH}.`,
   })
   @IsEnum(AllowedGenderEnum, {
-    message: 'Must be either Male, Female or Both.',
+    message: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.BOTH}.`,
   })
   allowed_gender: AllowedGenderEnum;
 
@@ -73,6 +69,23 @@ export class CreateGymDTO {
   @IsNotEmpty()
   @MinLength(1)
   working_hours: string;
+
+  @ApiPropertyOptional({
+    enum: AttributeEnum,
+    isArray: true,
+    description: `Array should only contain values from "${Object.values(
+      AttributeEnum,
+    )}".`,
+  })
+  @IsOptional()
+  @IsArray()
+  @IsEnum(AttributeEnum, {
+    each: true,
+    message: `Array should only contain values from "${Object.values(
+      AttributeEnum,
+    )}".`,
+  })
+  attributes: AttributeEnum[];
 
   @ApiPropertyOptional()
   @IsOptional()

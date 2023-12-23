@@ -1,5 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsArray,
   IsBoolean,
   IsEnum,
   IsJSON,
@@ -12,6 +13,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { AllowedGenderEnum } from '../enum/allowed-gender.enum';
+import { AttributeEnum } from '../enum/attribute.enum';
 import { BusinessStatusEnum } from '../enum/business-status.enum';
 
 export class UpdateGymDTO {
@@ -29,18 +31,13 @@ export class UpdateGymDTO {
   @Min(1)
   monthly_fee: number;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsBoolean()
-  is_air_condition: boolean;
-
   @ApiPropertyOptional({
     enum: AllowedGenderEnum,
-    description: 'Must be either Male, Female or Both.',
+    description: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.BOTH}.`,
   })
   @IsOptional()
   @IsEnum(AllowedGenderEnum, {
-    message: 'Must be either Male, Female or Both.',
+    message: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.BOTH}.`,
   })
   allowed_gender: AllowedGenderEnum;
 
@@ -81,13 +78,30 @@ export class UpdateGymDTO {
 
   @ApiPropertyOptional({
     enum: BusinessStatusEnum,
-    description: 'Must be either Operational or Closed.',
+    description: `Must be either ${BusinessStatusEnum.OPERATIONAL} or ${BusinessStatusEnum.CLOSED}.`,
   })
   @IsOptional()
   @IsEnum(BusinessStatusEnum, {
-    message: 'Must be either Operational or Closed.',
+    message: `Must be either ${BusinessStatusEnum.OPERATIONAL} or ${BusinessStatusEnum.CLOSED}.`,
   })
   business_status: BusinessStatusEnum;
+
+  @ApiPropertyOptional({
+    enum: AttributeEnum,
+    isArray: true,
+    description: `Array should only contain values from "${Object.values(
+      AttributeEnum,
+    )}".`,
+  })
+  @IsOptional()
+  @IsArray()
+  @IsEnum(AttributeEnum, {
+    each: true,
+    message: `Array should only contain values from "${Object.values(
+      AttributeEnum,
+    )}".`,
+  })
+  attributes: AttributeEnum[];
 
   @ApiPropertyOptional()
   @IsOptional()

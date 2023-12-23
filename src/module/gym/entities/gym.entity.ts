@@ -8,6 +8,7 @@ import {
 import { BaseEntity } from '../../../common/entities/base.entity';
 import { DistrictEntity } from '../../district/entities/district.entity';
 import { AllowedGenderEnum } from '../enum/allowed-gender.enum';
+import { AttributeEnum } from '../enum/attribute.enum';
 import { BusinessStatusEnum } from '../enum/business-status.enum';
 
 @Entity('gym')
@@ -20,9 +21,6 @@ export class GymEntity extends BaseEntity {
 
   @Column('int')
   monthly_fee: number;
-
-  @Column({ default: false })
-  is_air_condition: boolean;
 
   @Column({ type: 'enum', enum: AllowedGenderEnum })
   allowed_gender: AllowedGenderEnum;
@@ -48,6 +46,9 @@ export class GymEntity extends BaseEntity {
     default: BusinessStatusEnum.OPERATIONAL,
   })
   business_status: BusinessStatusEnum;
+
+  @Column({ type: 'set', enum: AttributeEnum, nullable: true })
+  attributes: AttributeEnum[];
 
   @ManyToOne(() => DistrictEntity, (district) => district.gyms, {
     onDelete: 'SET NULL',
