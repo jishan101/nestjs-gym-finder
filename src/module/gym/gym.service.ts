@@ -60,6 +60,12 @@ export class GymService {
       gyms = gyms.filter((gym) => gym.rating >= Math.min(...query.rating));
     }
 
+    if (query.business_status) {
+      gyms = gyms.filter((gym) =>
+        isSameString(gym.business_status, query.business_status),
+      );
+    }
+
     return gyms;
   }
 
