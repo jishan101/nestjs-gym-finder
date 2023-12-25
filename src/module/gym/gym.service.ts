@@ -56,8 +56,8 @@ export class GymService {
       );
     }
 
-    if (query.rating) {
-      gyms = gyms.filter((gym) => gym.rating >= query.rating);
+    if (query.rating.length) {
+      gyms = gyms.filter((gym) => gym.rating >= Math.min(...query.rating));
     }
 
     return gyms;

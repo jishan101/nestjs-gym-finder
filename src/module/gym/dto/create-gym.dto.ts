@@ -29,10 +29,10 @@ export class CreateGymDTO {
 
   @ApiProperty({
     enum: AllowedGenderEnum,
-    description: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.BOTH}.`,
+    description: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.COMBINED}.`,
   })
   @IsEnum(AllowedGenderEnum, {
-    message: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.BOTH}.`,
+    message: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.COMBINED}.`,
   })
   allowed_gender: AllowedGenderEnum;
 

@@ -4,5 +4,5 @@ export enum AttributeEnum {
   JUICE_BAR = 'Juice Bar',
   TREADMILL = 'Treadmill',
   LOCKER = 'Locker',
-  SHOWER = 'Shower',
+  STEAM_ROOM = 'Steam Room',
 }

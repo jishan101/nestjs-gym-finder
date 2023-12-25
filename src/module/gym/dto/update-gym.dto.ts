@@ -33,11 +33,11 @@ export class UpdateGymDTO {
 
   @ApiPropertyOptional({
     enum: AllowedGenderEnum,
-    description: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.BOTH}.`,
+    description: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.COMBINED}.`,
   })
   @IsOptional()
   @IsEnum(AllowedGenderEnum, {
-    message: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.BOTH}.`,
+    message: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.COMBINED}.`,
   })
   allowed_gender: AllowedGenderEnum;
 
@@ -78,11 +78,11 @@ export class UpdateGymDTO {
 
   @ApiPropertyOptional({
     enum: BusinessStatusEnum,
-    description: `Must be either ${BusinessStatusEnum.OPERATIONAL} or ${BusinessStatusEnum.CLOSED}.`,
+    description: `Must be either ${BusinessStatusEnum.OPERATIONAL} or ${BusinessStatusEnum.NON_OPERATIONAL}.`,
   })
   @IsOptional()
   @IsEnum(BusinessStatusEnum, {
-    message: `Must be either ${BusinessStatusEnum.OPERATIONAL} or ${BusinessStatusEnum.CLOSED}.`,
+    message: `Must be either ${BusinessStatusEnum.OPERATIONAL} or ${BusinessStatusEnum.NON_OPERATIONAL}.`,
   })
   business_status: BusinessStatusEnum;
 
