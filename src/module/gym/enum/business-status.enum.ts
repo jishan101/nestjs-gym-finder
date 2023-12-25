@@ -1,4 +1,4 @@
 export enum BusinessStatusEnum {
   OPERATIONAL = 'Operational',
-  CLOSED = 'Closed',
+  NON_OPERATIONAL = 'Non Operational',
 }

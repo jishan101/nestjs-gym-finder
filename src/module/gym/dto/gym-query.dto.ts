@@ -48,22 +48,24 @@ export class GymQueryDTO {
   @Min(1)
   monthly_fee_end: number;
 
-  @ApiPropertyOptional({ enum: AllowedGenderEnum })
+  @ApiPropertyOptional({
+    enum: AllowedGenderEnum,
+    description: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.COMBINED}.`,
+  })
   @IsOptional()
   @IsEnum(AllowedGenderEnum, {
-    message: 'Must be either Male, Female or Both.',
+    message: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.COMBINED}.`,
   })
   allowed_gender: AllowedGenderEnum;
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsNumber()
-  @Transform((x: any) =>
-    x.value && typeof x.value !== 'number' ? Number(x.value) : x.value,
+  @IsArray()
+  @Transform((x: { value: string }) =>
+    x.value ? x.value.split(',').map((i) => Number(i.trim())) : x.value,
   )
   @IsNotEmpty()
-  @Min(1)
-  rating: number;
+  rating: number[];
 
   @ApiPropertyOptional()
   @IsOptional()
