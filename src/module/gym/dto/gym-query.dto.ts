@@ -13,6 +13,7 @@ import {
   ValidateIf,
 } from 'class-validator';
 import { AllowedGenderEnum } from '../enum/allowed-gender.enum';
+import { BusinessStatusEnum } from '../enum/business-status.enum';
 
 export class GymQueryDTO {
   @ApiProperty()
@@ -56,6 +57,15 @@ export class GymQueryDTO {
     message: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.COMBINED}.`,
   })
   allowed_gender: AllowedGenderEnum;
+
+  @ApiPropertyOptional({
+    enum: BusinessStatusEnum,
+  })
+  @IsOptional()
+  @IsEnum(BusinessStatusEnum, {
+    message: `Must be either ${BusinessStatusEnum.OPERATIONAL} or ${BusinessStatusEnum.NON_OPERATIONAL}.`,
+  })
+  business_status: BusinessStatusEnum;
 
   @ApiPropertyOptional()
   @IsOptional()
