@@ -50,7 +50,6 @@ export class GymQueryDTO {
 
   @ApiPropertyOptional({
     enum: AllowedGenderEnum,
-    description: `Must be either ${AllowedGenderEnum.MALE}, ${AllowedGenderEnum.FEMALE} or ${AllowedGenderEnum.COMBINED}.`,
   })
   @IsOptional()
   @IsEnum(AllowedGenderEnum, {
