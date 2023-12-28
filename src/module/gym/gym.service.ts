@@ -36,7 +36,7 @@ export class GymService {
       gyms = gyms.filter((gym) => isSameString(gym.name, query.name));
     }
 
-    if (query.attributes.length) {
+    if (query.attributes?.length) {
       gyms = gyms.filter((gym) =>
         query.attributes.every((attr) => gym.attributes.includes(attr as any)),
       );
@@ -56,7 +56,7 @@ export class GymService {
       );
     }
 
-    if (query.rating.length) {
+    if (query.rating?.length) {
       gyms = gyms.filter((gym) => gym.rating >= Math.min(...query.rating));
     }
 
