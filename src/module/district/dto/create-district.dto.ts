@@ -9,7 +9,7 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator';
-import { CreateGymDTO } from 'src/module/gym/dto/create-gym.dto';
+import { CreateGymDTO } from '../../gym/dto/create-gym.dto';
 
 export class CreateDistrictDTO {
   @ApiProperty()
