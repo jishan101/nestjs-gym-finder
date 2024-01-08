@@ -5,6 +5,7 @@ import { DeleteResponseDTO } from '../../common/dto/delete-response.dto';
 import { UpdateResponseDTO } from '../../common/dto/update-response.dto';
 import { isSameString } from '../../common/util/is-same-string.util';
 import { ResponseHelper } from '../../common/util/response-helper.util';
+import { DistrictService } from '../district/district.service';
 import { CreateGymDTO } from './dto/create-gym.dto';
 import { GymQueryDTO } from './dto/gym-query.dto';
 import { UpdateGymDTO } from './dto/update-gym.dto';
@@ -15,10 +16,18 @@ export class GymService {
   constructor(
     @InjectRepository(GymEntity)
     private readonly gymRepo: Repository<GymEntity>,
+    private readonly districtService: DistrictService,
   ) {}
 
-  public create(body: CreateGymDTO): Promise<GymEntity> {
+  public async create(body: CreateGymDTO): Promise<GymEntity> {
+    const district = body.district_id
+      ? await this.districtService.findOne(body.district_id)
+      : null;
+
     const newGym = this.gymRepo.create(body);
+    if (district) {
+      newGym.district = district;
+    }
 
     return this.gymRepo.save(newGym);
   }
@@ -33,7 +42,9 @@ export class GymService {
     });
 
     if (query.name) {
-      gyms = gyms.filter((gym) => isSameString(gym.name, query.name));
+      gyms = gyms.filter((gym) =>
+        gym.name.toLowerCase().includes(query.name.trim().toLowerCase()),
+      );
     }
 
     if (query.attributes?.length) {

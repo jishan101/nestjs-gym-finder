@@ -7,16 +7,25 @@ import { ResponseHelper } from '../../common/util/response-helper.util';
 import { CreateDistrictDTO } from './dto/create-district.dto';
 import { UpdateDistrictDTO } from './dto/update-district.dto';
 import { DistrictEntity } from './entities/district.entity';
+import { DivisionService } from '../division/division.service';
 
 @Injectable()
 export class DistrictService {
   constructor(
     @InjectRepository(DistrictEntity)
     private readonly districtRepo: Repository<DistrictEntity>,
+    private readonly divisionService: DivisionService,
   ) {}
 
-  public create(body: CreateDistrictDTO): Promise<DistrictEntity> {
+  public async create(body: CreateDistrictDTO): Promise<DistrictEntity> {
+    const division = body.division_id
+      ? await this.divisionService.findOne(body.division_id)
+      : null;
+
     const newDistrict = this.districtRepo.create(body);
+    if (division) {
+      newDistrict.division = division;
+    }
 
     return this.districtRepo.save(newDistrict);
   }
