@@ -5,10 +5,12 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Logger,
   Param,
   Patch,
   Post,
 } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResponseDTO } from '../../common/dto/delete-response.dto';
 import { UpdateResponseDTO } from '../../common/dto/update-response.dto';
@@ -21,7 +23,14 @@ import { DivisionEntity } from './entities/division.entity';
 @ApiTags("Division Api's")
 @Controller('division')
 export class DivisionController {
+  private readonly logger = new Logger('Gym Finder');
+
   constructor(private readonly divisionService: DivisionService) {}
+
+  @Cron(CronExpression.EVERY_10_MINUTES)
+  public async updateTaskStatus() {
+    this.logger.debug(`Called at ${new Date()}`);
+  }
 
   @Post('seed-division-district')
   public async seedDivisionDistrict() {
